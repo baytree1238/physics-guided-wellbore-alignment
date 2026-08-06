@@ -1,0 +1,41 @@
+{
+  "method": "pf_initial_structural_rate_frozen_transfer_v1",
+  "scope": "Exact80 frozen transfer (historically opened)",
+  "frozen_from_dev_summary": "pf_initial_state_dev40_evidence/summary.json",
+  "arm": "w120_endpoint_s1.0",
+  "reference_rmse": 8.873345482324403,
+  "candidate_rmse": 10.665498640116237,
+  "gain_vs_reference": -1.7921531577918337,
+  "fold_gains": [
+    -8.892049296675637,
+    -1.3692314932603322,
+    0.46533763068093226,
+    0.2580596284962864,
+    0.021298514855232042
+  ],
+  "positive_folds": 3,
+  "well_bootstrap_ci95": [
+    -4.86174865618844,
+    0.18598127460775277
+  ],
+  "transfer_passes_same_stability_gate": false,
+  "target_isolation": {
+    "horizontal_prediction_columns": [
+      "MD",
+      "Z",
+      "GR",
+      "TVT_input"
+    ],
+    "typewell_prediction_columns": [
+      "TVT",
+      "GR"
+    ],
+    "suffix_tvt_seen_by_prediction": false
+  },
+  "runtime": {
+    "wall_seconds": 110.58369415299967,
+    "summed_worker_seconds": 431.96909621199666,
+    "workers": 4
+  },
+  "created_submission_csv": false
+}
