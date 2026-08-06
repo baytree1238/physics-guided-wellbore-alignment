@@ -1,0 +1,64 @@
+{
+  "method": "continuous_time_ou_step_and_xyz_chord_pf_audit_v1",
+  "scope": "80-well transfer (historically opened)",
+  "created_submission_csv": false,
+  "target_isolation": {
+    "horizontal_prediction_columns": [
+      "MD",
+      "X",
+      "Y",
+      "Z",
+      "GR",
+      "TVT_input"
+    ],
+    "typewell_prediction_columns": [
+      "TVT",
+      "GR"
+    ],
+    "suffix_tvt_seen_by_prediction": false
+  },
+  "delta_md": {
+    "rows": 394934,
+    "minimum": 1.0,
+    "maximum": 1.0,
+    "fraction_not_exactly_one": 0.0,
+    "ou_transform_algebraically_identical": true,
+    "rmse_change": 0.0
+  },
+  "xyz_chord": {
+    "step_quantiles": {
+      "0.0": 0.9867623825272075,
+      "0.01": 0.9908582136642247,
+      "0.5": 1.0000999952496992,
+      "0.99": 1.0086624805182305,
+      "1.0": 1.0136074190308384
+    },
+    "pf_rmse": 8.951019296207201,
+    "incumbent_pf_rmse": 8.873345482324403,
+    "gain_vs_incumbent_pf": -0.07767381388279837,
+    "fold_gains": [
+      -1.48346199113392,
+      0.6733967715805251,
+      -0.918458772584481,
+      0.31075844153254906,
+      0.12046805223507207
+    ],
+    "positive_folds": 3
+  },
+  "best_arm": {
+    "arm": "xyz_chord_pf_plus_25pct_stride6_hmm",
+    "rmse": 8.162747219782675,
+    "gain_vs_incumbent_pf": 0.710598262541728,
+    "fold_scores": "[5.749639412234263, 8.36567690888495, 6.3118235610264755, 7.834516321695788, 11.340065491339477]"
+  },
+  "runtime": {
+    "wall_seconds": 94.19179475000055,
+    "summed_worker_seconds": 367.74547338298726,
+    "workers": 4
+  },
+  "decision": "HOLD_UNLESS_CHORD_TRANSFER_IS_MATERIAL_AND_STABLE",
+  "limitations": [
+    "80-well transfer (historically opened) is not a fresh pristine confirmation panel.",
+    "3-D chord length is a straight-line approximation; MD is the physical along-hole arc length."
+  ]
+}
