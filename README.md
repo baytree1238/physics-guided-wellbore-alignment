@@ -1,324 +1,319 @@
-# physics-guided-wellbore-alignment
-### Aligning well logs and correcting geological depth using physics-aware modeling and robust validation
+# Physics-Guided Wellbore Alignment
 
-Physics-guided reconstruction of hidden geological depth for a horizontal
-wellbore.
+Recovering hidden geological depth along a horizontal well, using only the
+part of the well that was actually measured.
 
-I built this project around a simple but stubborn problem: given a horizontal
-well's drilled path, its noisy gamma-ray log, a short visible stretch of its
-true vertical thickness (TVT), and a paired vertical reference well, can you
-recover the TVT for the part of the well you haven't drilled yet? Instead of
-treating every row as its own regression target, I treated the whole thing as
-a leakage-sensitive, sequence-level inverse problem - you're not fitting
-points, you're recovering a path.
+The setting is the
+[ROGII Wellbore Geology Prediction competition](https://www.kaggle.com/competitions/rogii-wellbore-geology-prediction).
+For each horizontal well the trajectory and gamma-ray log are known, but true
+vertical thickness (TVT) is observed only near the heel. Everything past that
+point has to be inferred.
 
-The core idea stayed the same throughout: let machine learning provide a
-strong local reference, and let particle filtering, sequence alignment,
-regional geological structure, and bounded residual corrections add the
-physically meaningful parts on top. Nothing gets to make an unlimited
-correction. Every proposed change has to survive a frozen, component-safe
-transfer test before I trust it.
+I treat this as trajectory reconstruction rather than row-wise regression. A
+learned reference path sets the starting point. A particle filter and a
+sequence aligner then argue about where the geology actually went, and a gate
+built for this problem, the Hierarchical Geology Regret Gate, decides how far
+the reference is allowed to follow them. Regional structure and two small
+boundary corrections come last, each with its own movement budget.
 
-## The problem I was actually solving
+Two decisions shaped the project more than the model did. Validation splits on
+connected geological components instead of wells, because neighbouring wells
+leak into each other. And every failed transfer experiment stayed in the
+repository next to the contract that rejected it.
 
-For each horizontal well, I had:
+## Project at a glance
 
-- `MD`: measured depth along the wellbore;
-- `X`, `Y`, `Z`: the known 3-D trajectory of the well;
-- `GR`: a gamma-ray log that's noisy and sometimes missing;
-- `TVT_input`: TVT that's only observed up to the Prediction Start point;
-- a paired **typewell**: a vertical reference well with its own `GR`–`TVT`
-  curve and geological context.
+| Item | Summary |
+|:--|:--|
+| Research question | Can noisy log alignment and geological structure improve a strong tabular reference without inventing implausible well paths? |
+| Core methods | Particle filter, GeoHMM, HGRG, regional state-space fusion, bounded boundary and shape corrections |
+| Validation unit | Connected geological components, not rows or individual wells |
+| Primary metric | Row-level RMSE in feet |
+| Historical submitted run | 6.536 visible RMSE, 9.091 hidden RMSE |
+| Reproducible package | [`src/rogii_portfolio/`](src/rogii_portfolio/) |
+| Best place to start | [Executed research notebook](portfolio_notebook_executed.ipynb) |
 
-The target is the missing tail of `TVT` - a geological/stratigraphic
-coordinate, not just the borehole's geometric vertical position. Scoring is
-row-level RMSE in feet, lower is better.
+That hidden score belongs to the whole submission pipeline, so it is one
+observation of the full path and not an ablation result for any single overlay.
+The run also finished after the competition deadline and was never eligible for
+the official ranking. Both facts are here because leaving either out would
+misrepresent the experiment.
 
-The GR signal you're given is an indirect, ambiguous read on where the well
-sits inside the geological column that the typewell's `GR(TVT)` curve
-represents. The same GR pattern can show up at more than one depth,
-measurements drop out, and faults or changing dip can quietly break any simple
-one-to-one correlation between the two curves. So instead of treating this as
-a pile of unrelated rows, I modeled a single latent geological path. A useful
-coordinate for that is
+## The problem
+
+Each horizontal well contains:
+
+- `MD`: measured depth along the borehole;
+- `X`, `Y`, `Z`: the three-dimensional well trajectory;
+- `GR`: a noisy gamma-ray log with occasional missing values;
+- `TVT_input`: TVT observed only before the prediction boundary;
+- a paired type well with a reference `GR(TVT)` curve.
+
+TVT is a geological coordinate, so the target cannot be recovered from the
+borehole geometry alone. Gamma-ray patterns are indirect and often ambiguous:
+similar motifs can occur at several depths, measurements can be missing, and
+faults or changing dip can break a simple one-to-one match.
+
+I model the latent structural coordinate
 
 $$
-U(s)=TVT(s)+Z(s), \qquad TVT(s)=U(s)-Z(s),
+U(s) = TVT(s) + Z(s), \qquad TVT(s) = U(s) - Z(s),
 $$
 
-where $s$ is measured depth. This splits borehole motion (known, via `Z`)
-from the motion of the geological surface itself, which is what I actually
-need to infer. The visible prefix anchors datum and short-range trend; the
-horizontal and typewell GR curves give uncertain alignment evidence for
-everything past that.
+where $s$ is measured depth. This separates the known vertical motion of the
+borehole from the geological surface that must be inferred.
 
-## What I was trying to do
-
-1. **Recover a coherent path**, not a scatter of isolated predictions.
-2. **Combine complementary evidence** , ML features, particle trajectories, GR
-   alignment, regional structure , without letting any single source make an
-   unbounded correction.
-3. **Kill geological leakage** by keeping nearby, duplicated, or highly
-   similar wells inside the same validation component, so validation actually
-   looks like deploying on unseen geology.
-4. **Track uncertainty and harm**, not just pooled RMSE , fold consistency,
-   component-level confidence intervals, harmed-well rate, tail error, and
-   worst-well regret.
-5. **Keep negative results around** so I don't keep re-discovering and
-   re-overfitting the same tempting-but-wrong mechanism.
-
-This is a reproducible research framework for physics-guided log alignment and
-depth correction (not a claim that the pipeline is production-ready
-geosteering software.)
-
-## Pipeline
+## Method
 
 ```text
-component-safe data
-        ↓
-observable ML reference
-        ↓
-particle-filter trajectory + GeoHMM alignment path
-        ↓
-HGRG bounded disagreement-aware projection
-        ↓
-regional Meta-State direction and scaling
-        ↓
-visible-prefix boundary condition
-        ↓
-conditional GeoHMM shape correction
+component-safe training data
+            |
+            v
+learned local reference
+            |
+            +-----------------------+
+            |                       |
+            v                       v
+     particle trajectories     GeoHMM alignment
+            |                       |
+            +-----------+-----------+
+                        v
+               bounded HGRG update
+                        |
+                        v
+              regional Meta-State
+                        |
+                        v
+             prefix boundary condition
+                        |
+                        v
+           conditional GeoHMM shape update
 ```
 
-I kept the nested residual experts and the CHRRC roughness control around as
-audited alternatives - they were part of the research, but they weren't
-stages in the final submitted Boundary + Meta-State + shape candidate.
+### Learned reference
 
-### 1. Observable ML reference
+The reference model uses trajectory geometry, prefix summaries, gamma-ray
+descriptors, and type-well features. The model and preprocessing state are
+refitted in each outer fold without the held-out geological component.
 
-The baseline uses prefix-derived trajectory geometry, GR summaries, typewell
-descriptors, and a nonlinear regressor. For honest scoring, every prediction
-for a held-out component had to come from a model and preprocessing state
-fitted without that component. I treated this as an anchor, not as proof that
-local nonlinear features alone can recover long-range geology.
+### Particle filter
 
-### 2. A hidden-generic nonlinear control
+The particle filter propagates several structural paths forward from the
+visible heel. When the log admits no unique alignment, this keeps competing
+datum and local-rate hypotheses alive instead of collapsing to one of them
+early.
 
-I also built a deterministic 5-fold LightGBM control that predicts the TVT
-increment from the last visible anchor using 121 target-free features , no
-well identity, no suffix targets, no formation surfaces, no global spatial
-interpolation. On the full 773-well component-safe OOF, it went
-**13.6550 → 13.6065**, improved every fold, with a whole-component gain
-interval of **[+0.0421, +0.0559] ft**. Its official visible/hidden scores were
-**11.223/11.670**. It's a solid robustness check, not the competitive model.
+### GeoHMM
 
-### 3. Particle filter
+The GeoHMM aligns the horizontal suffix against the type-well log on a grid of
+TVT and local slope. It sees the same data as the particle filter but searches
+it differently, so it fails differently too. That is the point: it serves as a
+second opinion, never as a standalone predictor.
 
-Propagates uncertainty over structural datum and rate from the visible heel.
-It encodes trajectory continuity and gives you multiple plausible paths when
-the log alone doesn't pin down a unique alignment.
+### HGRG
 
-### 4. GeoHMM alignment
+The Hierarchical Geology Regret Gate is the piece I designed specifically for
+this problem. Both physics experts can be confidently wrong at the same time,
+so the question is not which one to trust but how much movement to authorise at
+all. HGRG reads the disagreement between the reference, the particle filter and
+the GeoHMM as a risk signal available at prediction time, and converts it into
+a shrinkage coefficient. Every resulting correction is then capped twice, by a
+well-level RMS budget and a row-level limit.
 
-Aligns the horizontal suffix GR sequence against the vertical typewell GR
-sequence and smooths the resulting path. I'm not claiming GeoHMM is a great
-standalone predictor , its value is that its errors don't look like the
-particle filter's or the learned reference's.
+### Regional Meta-State
 
-For a fixed coefficient $\alpha$, the combined proposal is
+A surface fitted on outer-training wells provides the regional observation.
+Correlated generalized least squares and a state-space smoother combine it
+with the local experts. Prediction-time reliability sets the movement size.
 
-$$
-Q_\alpha=(1-\alpha)Q_{PF}+\alpha Q_{HMM}.
-$$
+### Boundary and shape corrections
 
-### 5. HGRG and bounded movement
+The boundary correction extends the visible-prefix tangent into the first part
+of the hidden interval and decays with distance. The shape correction uses a
+centered GeoHMM and particle-filter disagreement signal, preserving local
+shape information without shifting the overall well datum.
 
-Uses disagreement between the reference, PF, and GeoHMM as an uncertainty
-signal, shrinks changes it doesn't trust, and projects the whole well
-correction onto a per-well RMS budget. This favors a coherent trajectory shift
-over independently clipping individual points.
+## Design choices
 
-### 6. Regional Meta-State
+- **Protected-parent inference:** physics experts propose bounded moves from a
+  stable learned path.
+- **HGRG:** relative PF/GeoHMM disagreement measures risk, while an independent
+  Ridge direction provides weak support for or against the proposed move.
+- **Geometric role separation:** regional trend, prefix continuity, and local
+  shape are handled by separate corrections with separate movement budgets.
+- **Target-isolated regional fusion:** spatial structure is fitted only on
+  outer-training wells, calibrated on the target's visible prefix, and fused
+  with explicitly correlated local experts.
+- **Validation as part of the estimator:** the same observable geological
+  component graph governs fitting, outer validation, holdout assignment, and
+  uncertainty resampling.
+- **Research governance:** frozen policies, negative-transfer results, and
+  historical lineage are recorded with the reported scores.
 
-A training-side regional surface gives estimates of datum, slope, and
-curvature. I use it as a direction, not an unrestricted replacement ,
-prediction-time disagreement decides how far the model is allowed to move
-toward it.
+See the [methodology deep dive](docs/METHODOLOGY_DEEP_DIVE.md) for the equations,
+four system diagrams, and a guide to the saved trajectory figure. The
+[technical methodology report](evidence/methodology_report.html) provides the
+same material with validation charts and source metadata.
 
-### 7. Prefix-Boundary hand-off
+## Validation design
 
-The first hidden point should stay consistent with the structural datum and
-tangent right before Prediction Start. A robust prefix-only tangent applies
-strongly near the boundary and decays with distance. This frozen policy moved
-Exact80 from **7.4324 to 7.4141** and the strict component-absent confirmation
-from **11.4162 to 11.4014**.
+A random row split is far too optimistic here, since adjacent rows in the same
+well carry almost the same geological error. Splitting by well is the obvious
+fix and still leaks: nearby wells, a shared type well, or simply similar
+gamma-ray curves can land on opposite sides of a fold and hand the model the
+answer.
 
-### 8. Conditional GeoHMM shape
+So the split happens before any model is fitted. Wells are connected by
+observable geological similarity, and complete connected components, never
+fragments of one, are assigned to development folds or the run-level holdout.
+The same components serve as bootstrap units, which keeps the uncertainty
+estimate honest about what is actually being resampled.
 
-A cheaper stride-6 GeoHMM works as a separate shape expert. Its disagreement
-with PF is centered within each well so this branch can't shift a well's
-overall datum. Target-free amplitude and roughness gates scale a correction
-capped at **0.75 ft well RMS** and **2.5 ft per row**. Shape alone improved
-Exact80 by **0.0160 ft**; composed with the separately frozen boundary
-correction, it reached **7.3986 RMSE**.
+The promotion rule was:
 
-### 9. Nested residual stack and roughness control
+1. Define one parent prediction and one testable change.
+2. Tune on the declared development population only.
+3. Freeze the policy before inspecting transfer labels.
+4. Evaluate on a component-disjoint or previously frozen panel.
+5. Check pooled error, fold consistency, component uncertainty, and harmed-well rate.
+6. Retain, shrink, or reject the change based on that contract.
 
-Direct and structured residual experts get combined with non-negative convex
-weights, learned strictly inside each outer fold. A small final correction
-smooths out unstable high-frequency wiggle while leaving the long structural
-trend alone. Any gate that failed frozen transfer got disabled rather than
-retuned on the same labels.
-
-## Leakage-conscious validation
-
-A random row split doesn't work here , thousands of adjacent rows from the
-same well share basically the same geological error. A well-only split is
-better, but it still leaks through nearby wells, shared typewells, and
-near-duplicate GR curves.
-
-I built connected geological components using spatial proximity, Prediction
-Start proximity, exact typewell identity, and high GR-curve similarity, then
-assigned whole components to folds and used those same components as
-bootstrap units.
-
-My promotion rule, every time:
-
-1. define a parent prediction and one hypothesis;
-2. tune only on the declared development population;
-3. freeze the policy and predictions before opening transfer labels;
-4. evaluate once on a component-disjoint or otherwise frozen panel;
-5. check pooled gain, fold signs, confidence interval, and well-level harm;
-6. promote it, shrink it, or zero it out.
-
-Throughout,
+Throughout the project,
 
 $$
-\text{gain}=RMSE_{base}-RMSE_{candidate},
+\operatorname{gain} = RMSE_{parent} - RMSE_{candidate},
 $$
 
-so positive is better, and I only compare absolute RMSE values when they share
-the same parent prediction, population, folds, and scoring contract.
+so a positive value indicates improvement. Results are compared only when the
+parent, population, folds, and scoring contract match.
 
-## What actually worked
+## Evidence
 
-These numbers come from different experiment populations , **don't add them
-together or read them as one leaderboard estimate.**
+These rows come from different experiment populations. They are deliberately
+not stacked into one cumulative ladder, because their parents and scored rows
+differ.
 
-| Experiment | Validation contract | Base → candidate RMSE | Gain |
-|---|---|---:|---:|
-| PF + 20% GeoHMM | 40-well discovery panel | 7.5072 → 6.5775 | +0.9297 ft |
-| HGRG bounded projection | 80-well transfer surrogate | 7.8299 → 7.5006 | +0.3293 ft |
-| Regional Meta-State | frozen 160-well confirmation | 9.8871 → 9.1804 | +0.7067 ft |
-| Nested residual stack | same 160-well confirmation | 9.1804 → 9.1087 | +0.0717 ft |
-| Prefix-Boundary | Exact80 trajectory | 7.4324 → 7.4141 | +0.0183 ft |
-| Boundary + conditional shape | Exact80 composition | 7.4324 → 7.3986 | +0.0338 ft |
+| Experiment | Validation contract | Parent RMSE | Candidate RMSE | Gain |
+|:--|:--|--:|--:|--:|
+| PF with 20% GeoHMM | 40-well discovery panel | 7.5072 | 6.5775 | +0.9297 ft |
+| HGRG projection | 80-well transfer surrogate | 7.8299 | 7.5006 | +0.3293 ft |
+| Regional Meta-State | Frozen 160-well confirmation | 9.8871 | 9.1804 | +0.7067 ft |
+| Nested residual stack | Same 160-well confirmation | 9.1804 | 9.1087 | +0.0717 ft |
+| Prefix boundary | Exact80 trajectory | 7.4324 | 7.4141 | +0.0183 ft |
+| Boundary with conditional shape | Exact80 composition | 7.4324 | 7.3986 | +0.0338 ft |
 
-The residual stack improved all five confirmation folds, but only added a
-small amount beyond its best single expert, and the fold-wise weights were
-unstable , so I'm keeping it as a bounded overlay, not calling it a
-breakthrough.
+The clean-room nested pipeline was also run on two component-disjoint halves of
+the 320-well universe, which is the closest thing here to an honest
+generalization test:
 
-A few other things that kept showing up:
+| Panel | Parent outer OOF | Sequential outer OOF | Gain |
+|:--|--:|--:|--:|
+| Primary160 | 15.5551 | 14.8993 | +0.6558 ft |
+| Complement160 | 13.5177 | 12.6000 | +0.9177 ft |
 
-- long-range trend matters more than how good a correction looks right next
-  to the anchor;
-- a small tail of hard wells drives most of the pooled squared error;
-- PF/HMM disagreement is useful for flagging risky wells, but not reliable for
-  telling you which direction to correct in;
-- moving the whole trajectory within a budget transfers more safely than
-  aggressive pointwise edits;
-- an honest, geography-grouped score can look worse than a leaked one while
-  being far more useful.
+The detailed evidence trail is available in the
+[real-data report](docs/REALDATA_NESTED_RESULTS.md)
+and [robustness audit](docs/ROBUSTNESS_EVALUATION.md).
 
-## Things that didn't work
+## Negative results
 
-Failed hypotheses are part of the result, not something to bury:
+Six plausible ideas did not survive contact with a frozen transfer panel. They
+stay in the repository because the reasons they failed were more informative
+than the wins:
 
-- a longer heel-slope initialization improved development and then failed on
-  transfer;
-- a directional structural field improved discovery folds and reversed on a
-  frozen panel;
-- a learned regret router showed there was oracle headroom, but couldn't
-  actually predict which way to correct;
-- a PF policy I thought was horizon-specific collapsed to just one global
-  coefficient;
-- 3-D chord increments helped in discovery and lost on transfer;
-- transporting the actual suffix target from the same well was a useful
-  diagnostic, but I excluded it from the hidden-well methodology since it's
-  not a valid deployment assumption.
+- **Directional structural field.** Reversed sign on frozen transfer.
+- **Learned well-level regret router.** Abstained on 64.7% of holdout wells and
+  still trailed the plain sequential expert by 0.0171 ft. The uncertainty
+  signal was real; it simply was not sharp enough to pick an expert.
+- **Ridge-heavy expanded policy.** The strongest candidate on Primary160 and
+  the clearest failure on the component-disjoint panel (−0.7912 ft). One
+  component alone reached 149.5 ft RMSE against the incumbent's 33.6 ft.
+- **Four-regime switching-state model.** Worse on Primary160 OOF (15.2866 vs
+  14.8993) and on its run-level holdout (14.6019 vs 13.9504).
+- **Longer heel-slope initialization** and **three-dimensional chord
+  increments.** Rejected on transfer; no per-experiment numbers were kept.
 
-These controls back up the main lesson here: a physically sensible formula can
-still overfit, and a failed frozen transfer should usually mean you abstain or
-zero the weight , not go back and search over the same labels again.
+All six are disabled in the default path. The Ridge-heavy failure is the one I
+would show first: it looked excellent on the panel that selected it, which is
+exactly what a leaking validation design is supposed to prevent me from
+believing.
 
-## Final result
+## Repository guide
 
-The candidate I ended up deploying combined **HGRG, Meta-State,
-Prefix-Boundary, and conditional stride-6 GeoHMM shape**. It scored:
+```text
+.
+├── README.md                         # portfolio overview
+├── portfolio_notebook_executed.ipynb # rendered research narrative
+├── src/rogii_portfolio/              # model and validation implementation
+├── tests/                            # leakage, contract, and pipeline tests
+├── configs/                          # frozen experiment configurations
+├── evidence/                         # curated figures and result tables
+├── artifacts/                        # local experiment outputs, ignored by Git
+├── docs/                             # guides, method cards, and result notes
+├── scripts/                          # reproducibility and audit entry points
+└── Makefile                          # documented research workflows
+```
 
-| Partition | RMSE |
-|---|---:|
-| Visible scoring partition | **6.536** |
-| Hidden final partition | **9.091** |
+For a guided source-code tour, see the
+[codebase guide](docs/CODEBASE_GUIDE.md). The
+[implementation map](docs/IMPLEMENTATION_MAP.md)
+links each research claim to code and evidence. The
+[method cards](docs/METHOD_CARDS.md) collect the
+equations, complexity, assumptions, and known failure modes. The
+[methodology deep dive](docs/METHODOLOGY_DEEP_DIVE.md) provides the most
+detailed explanation of the original research design.
 
-<img width="2012" height="154" alt="image" src="https://github.com/user-attachments/assets/43d1b40c-57c8-4f31-b0f1-94328eaecb75" />
+## Reproduce the clean-room study
 
+From the repository root:
 
-That hidden score landed comfortably inside the bronze medal range. The catch: my
-submission finished scoring after the official competition deadline, which
-made it ineligible for final judging. I don't think one hidden-partition
-result proves every individual overlay works, but it's a real, meaningful
-end-to-end result for the combined method , I just didn't get it in under the
-wire.
+```bash
+make reproduce
+```
 
-That part stings a bit, and it was a time-management problem, not just bad
-luck. My three-well canary run finished its model audit and full log
-comfortably fast, but all three of those wells were protected overlaps , the
-run verified ID order, finite predictions, checksums, and code connectivity,
-but it never told me anything about hidden-scale inference time or queue
-latency on genuinely new wells. In a code competition, runtime, checkpoints,
-caching, restart behavior, launch margin, and queue time aren't details you
-sort out after the modeling is done , they're part of the methodology. Next
-time I'd profile on representative non-overlap wells, freeze earlier, and
-leave real margin before the deadline.
+On Windows or a machine without GNU Make:
 
-## Limitations
+```bash
+python reproduce.py
+```
 
-- The strongest 40-, 80-, and 160-well results come from different parents and
-  play different roles in the research loop , their gains don't add up.
-- Some confirmation wells were used in earlier studies of mine, so those
-  results are replicated evidence, not a pristine external test.
-- I never pinned down the coordinate reference system for `X`/`Y`, so spatial
-  thresholds are reported in raw coordinate units.
-- Prediction-time disagreement scores are risk signals, not calibrated
-  probabilities.
-- Large saved predictions and the competition data itself may be left out of
-  public bundles for size, licensing, or access reasons.
+The command creates the environment, runs the synthetic nested pipeline,
+executes the notebook and tests, and verifies the generated files by SHA-256.
 
-## What I'd do next
+Official competition data are not redistributed. To run the full clean-room
+pipeline with a local competition archive:
 
-1. Rebuild every imputer, reference model, and stacker inside each geological
-   component fold.
-2. Push the categorical alignment state to a finer resolution around the exact
-   OOF parent.
-3. Learn an uncertainty model with component-balanced regret and explicit
-   worst-well constraints.
-4. Evaluate the fully frozen path once, on a panel that's genuinely never been
-   touched for selection.
-5. Profile and cache the exact inference graph before running any large model
-   search again.
+```bash
+make reproduce-full DATA_ROOT=/path/to/rogii-wellbore-geology-prediction.zip
+```
 
-## About this project
+See the [reproducibility guide](docs/REPRODUCIBILITY.md) for the
+smaller integration profile, the two-panel research protocol, and Kaggle
+publishing instructions.
 
-This was built for the
-[ROGII – Wellbore Geology Prediction](https://www.kaggle.com/competitions/rogii-wellbore-geology-prediction)
-competition on Kaggle. The
-[community discussion thread](https://www.kaggle.com/competitions/rogii-wellbore-geology-prediction/discussion/708367)
-around it was genuinely useful for framing the problem as an inversion/alignment
-task rather than plain regression, and I'd credit it for a lot of the early
-direction here. Everything else , the experimental design, validation choices,
-implementation, and any mistakes , is mine.
+## Scope and limitations
 
-Competition data and any attached community materials are subject to Kaggle's
-rules and their original authors. This is an independent project, not an
-official ROGII product.
+- The clean-room package reproduces the algorithmic research path, not the
+  exact bytes of the historical competition submission.
+- Exact historical reconstruction needs external model artifacts that are not
+  redistributed here. The adapter requires their hashes and fails closed
+  without them.
+- Some panels had already been inspected in earlier studies. Results measured
+  on them are replication evidence, not a fresh final test, and are labelled
+  post-hoc wherever they appear.
+- The source data never establish a coordinate reference system, so every
+  spatial threshold is reported in raw coordinate units.
+- Prediction-time disagreement is a useful risk feature. It is not a calibrated
+  probability of geological error, and nothing here should be read as one.
+
+## Research record
+
+What this repository is really recording is a decision process: how the problem
+was framed, why each algorithm was given a movement budget instead of free
+rein, how the target was isolated, which hypotheses were rejected and on what
+contract, and which historical results remain out of reach without external
+artifacts.
+
+The implementation and research decisions are my own. Competition data and
+community materials remain subject to Kaggle's rules and their original
+licenses. ROGII did not sponsor or maintain this project.

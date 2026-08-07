@@ -1,0 +1,44 @@
+{
+  "seed": 20260809,
+  "prefix_fraction": 0.62,
+  "outer_folds": 5,
+  "inner_folds": 3,
+  "holdout_fraction": 0.20,
+  "pf_seeds": 2,
+  "pf_particles": 32,
+  "hmm_stride": 24,
+  "hmm_checkpoint": 24,
+  "model_max_iter": 15,
+  "model_max_leaf_nodes": 31,
+  "model_learning_rate": 0.05,
+  "model_l2": 1.0,
+  "spatial_radius_ft": 1000.0,
+  "gr_similarity_threshold": 0.95,
+  "similarity_radius_ft": 12000.0,
+  "stack_ridge": 0.02,
+  "bootstrap_draws": 5000,
+  "jobs": 1,
+  "mode": "full",
+  "extra": {
+    "enable_trust_region_ridge": true,
+    "trust_region_ridge_weight": 0.05,
+    "skip_nested_stack": true,
+    "split_seed": 20260809,
+    "panel_selection_seed": 20260808,
+    "panel_max_wells": 35,
+    "refit_seeds": [3101, 7727, 19001],
+    "pf_seed_offsets": [3101, 7727, 19001],
+    "prior_panel_roots": [
+      "artifacts/realdata_nested_160",
+      "artifacts/realdata_nested_160_confirmation"
+    ],
+    "promotion_rules": {
+      "all_seeds_positive_on_outer_oof": true,
+      "all_seeds_positive_on_holdout": true,
+      "hierarchical_bootstrap_ci95_low_gt": 0.0,
+      "mean_macro_component_gain_min_ft": 0.0,
+      "mean_cvar10_gain_min_ft": -0.05
+    },
+    "purpose": "preregistered contract-new but historically label-exposed component panel validation of a frozen 5% Ridge trust-region arm over three independent refits"
+  }
+}

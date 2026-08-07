@@ -1,0 +1,14 @@
+contract,stage,rmse_ft,gain_vs_immediate_parent_ft,evidence_role
+Dev40 discovery,PF8,7.507195,0.000000,discovery control
+Dev40 discovery,PF8 + 20% GeoHMM,6.577537,0.929658,discovery signal only
+Exact80 repeated transfer,detector-off parent,7.829921,0.000000,common-parent ladder
+Exact80 repeated transfer,HGRG,7.500639,0.329282,common-parent ladder
+Exact80 repeated transfer,Meta-State,7.432400,0.068239,common-parent ladder
+Exact80 repeated transfer,Prefix-Boundary,7.414100,0.018300,common-parent ladder
+Exact80 repeated transfer,conditional shape composition,7.398600,0.015500,reused panel exploratory composition
+Exact773 component OOF,FAST-SAFE nonlinear raw,13.654956,0.000000,separate nonlinear control
+Exact773 component OOF,FAST-SAFE + frozen CHRRC,13.606509,0.048447,separate nonlinear control
+Nonlinear code run,visible partition,11.223000,,single platform observation
+Nonlinear code run,hidden partition,11.670000,,single platform observation
+Final code run,visible partition,6.536000,,single end-to-end observation
+Final code run,hidden partition,9.091000,,single end-to-end observation after cutoff

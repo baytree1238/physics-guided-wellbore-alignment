@@ -1,0 +1,47 @@
+{
+  "contract": "exact_scored_byte_reproduction",
+  "status": "conditional_on_external_kaggle_artifacts",
+  "local_lineage": [
+    {
+      "path": "../roggii_baseline.ipynb",
+      "sha256": "1519eb6dfa44197a0e46391392a8dd07aed35bd254523edf9b815869899df293"
+    },
+    {
+      "path": "../kaggle_geohmm_hgrg_submission_ultra_v2/geohmm_hgrg_ultra_parallel.ipynb",
+      "sha256": "cd287155a222079dfd7526f58799955322c138ba1b463ad30ab3d4d70c4a795b"
+    },
+    {
+      "path": "../kaggle_meta_state_hgrg_geohmm_ultra_parallel_v2/meta_state_hgrg_geohmm_ultra_parallel.ipynb",
+      "sha256": "fbb39631e14074b16d9d736e2772cee3265709138327d0f7672d6e526f25383b"
+    },
+    {
+      "path": "../kaggle_prefix_boundary_meta_hgrg_ultra_parallel_v3/prefix_boundary_meta_hgrg_ultra_parallel_v3.ipynb",
+      "sha256": "979b7bc101029eea65ca0fb2ed0880d1626408f965d880415d8ed03da762d560"
+    },
+    {
+      "path": "../kaggle_boundary_meta_shape_geohmm_optional_v1/boundary_meta_shape_geohmm_optional.ipynb",
+      "sha256": "a205285f2391b09c76bf1581dd119807f508709d11475967eaa15307ef7f1b0c"
+    }
+  ],
+  "external_required": [
+    {
+      "kaggle_dataset": "ravaghi/wellbore-geology-prediction-artifacts",
+      "role": "historical feature/Ridge artifacts",
+      "local_path": null,
+      "pinned_version_sha256": null
+    },
+    {
+      "kaggle_dataset": "fleongg/rogii-claude-models-pub",
+      "role": "historical learned trajectory package",
+      "local_path": null,
+      "pinned_version_sha256": null
+    },
+    {
+      "kaggle_dataset": "pilkwang/rogii-model-package",
+      "role": "optional nonlinear package",
+      "local_path": null,
+      "pinned_version_sha256": null
+    }
+  ],
+  "fail_closed_rule": "Exact-byte mode must refuse to run until every external artifact has a pinned version and verified hash. Algorithmic retraining is a different contract."
+}

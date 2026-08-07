@@ -1,0 +1,420 @@
+{
+  "files": [
+    {
+      "bytes": 664,
+      "path": ".gitignore",
+      "sha256": "8d0a7cada6e7ecc92e3f775b70b5ab141122e3343642da9d1d0b3ac6f35b3954"
+    },
+    {
+      "bytes": 1601,
+      "path": "KAGGLE_UPLOAD.md",
+      "sha256": "95ab5c2971143ee83ff6a8ccf76f0900933f3889b81fbf496cb286b508e373c2"
+    },
+    {
+      "bytes": 1218,
+      "path": "LICENSE",
+      "sha256": "20665f5a959c91c588fd164dbb7eaebc42113427e8777808fc3104f97e40e9b5"
+    },
+    {
+      "bytes": 3560,
+      "path": "Makefile",
+      "sha256": "5e4899690bf9a01303b0a4fb32abd816081e85511b91a35e64d01f129d569398"
+    },
+    {
+      "bytes": 14036,
+      "path": "README.md",
+      "sha256": "fe4114f019c229ab428992637c4d162afe62e9183b8a0aee346f0b91722c74fe"
+    },
+    {
+      "bytes": 1858,
+      "path": "configs/exact_artifacts.json",
+      "sha256": "89bce9ba04467e84140bdf4dc9b4e1a0f8e332be9dd57e27737bbdbbc594120a"
+    },
+    {
+      "bytes": 504,
+      "path": "configs/full.json",
+      "sha256": "55ed3c5688b54f337146511777115bee82681b7820fea36f1d4c644426a1688a"
+    },
+    {
+      "bytes": 695,
+      "path": "configs/realdata_nested_160.json",
+      "sha256": "ef7a926f7b7c5865391d051bcb70d3dd29a502fa44084ab09d3bd59098bb5c53"
+    },
+    {
+      "bytes": 722,
+      "path": "configs/realdata_nested_160_confirmation.json",
+      "sha256": "40014a4affa0a81376d1cc3e76f18ab65f92be3cc832b2380fc307d5d8224380"
+    },
+    {
+      "bytes": 610,
+      "path": "configs/realdata_smoke.json",
+      "sha256": "59f005ea87dfb28d33a532ebd9330b9071c92de65c21da6c77d9c58ceb9f5e62"
+    },
+    {
+      "bytes": 694,
+      "path": "configs/realdata_switching_160.json",
+      "sha256": "014eed4cde085533597e2f0362f2f521e0f3f1b1f19dec071b900867a41660a6"
+    },
+    {
+      "bytes": 1344,
+      "path": "configs/refit_seed_validation_0p05.json",
+      "sha256": "5a88a62b3592b04edf5d2c13ea25a97fc1ae66a89f94a0dcaf2f957d4359de17"
+    },
+    {
+      "bytes": 3146,
+      "path": "configs/robustness_registry.json",
+      "sha256": "e6c3c4a1d1d6ae5b74a5dd157cead2c3927540eef4982fd9f0631af00dbcda4a"
+    },
+    {
+      "bytes": 558,
+      "path": "configs/smoke.json",
+      "sha256": "efb85519b106a951143d889eb9127bc111f3d9f4cb1173a16e7de369c84e3461"
+    },
+    {
+      "bytes": 9954,
+      "path": "docs/CODEBASE_GUIDE.md",
+      "sha256": "170a61395cf598d122926556bbd025d4a05b88ccfdd0659b8df2bd847c7cd14e"
+    },
+    {
+      "bytes": 1768,
+      "path": "docs/HISTORICAL_PARITY_GAPS.md",
+      "sha256": "0ac4eee3f5639cea28dea151084e99f45ad32ea7924aa07dcce31b35586bc46a"
+    },
+    {
+      "bytes": 4158,
+      "path": "docs/IMPLEMENTATION_MAP.md",
+      "sha256": "fb0781a918796d92799c33fcf174619e0c948517975c2ab8b906622f6417b94e"
+    },
+    {
+      "bytes": 14683,
+      "path": "docs/METHODOLOGY_DEEP_DIVE.md",
+      "sha256": "3642a0b93d54ca6b68c7ad1c9e22d33ea34ed98fa1824dc2b79b2dfb2eb20ad1"
+    },
+    {
+      "bytes": 11502,
+      "path": "docs/METHODOLOGY_REVIEW.md",
+      "sha256": "99464e83caf1087c1dd352f2bf44f047b4f04e9c648e3246c085b92b1f78a35d"
+    },
+    {
+      "bytes": 11537,
+      "path": "docs/METHOD_CARDS.md",
+      "sha256": "d14656b779be26bccb2ad59f89341f2e1cc4653049915a8aafc308e56150ca88"
+    },
+    {
+      "bytes": 3068,
+      "path": "docs/REALDATA_NESTED_RESULTS.md",
+      "sha256": "9f3e2ebce429f809098e10e6231980ee3e759c907fb07e7af65f55329c5b81e2"
+    },
+    {
+      "bytes": 16075,
+      "path": "docs/REPRODUCIBILITY.md",
+      "sha256": "90b4623d113ad018fd9c7d61ed6e07509e9c0995b8cdcd06ddb0bcee9d36767d"
+    },
+    {
+      "bytes": 4357,
+      "path": "docs/ROBUSTNESS_EVALUATION.md",
+      "sha256": "9822d5d6ffe7afe77a9e60fcf49535942f47316015c79da2ea74a0a209439217"
+    },
+    {
+      "bytes": 346,
+      "path": "environment.yml",
+      "sha256": "225061bc9de2ae90bee0c65b99af13751fac25e45f43499305b845fbdf6af8dd"
+    },
+    {
+      "bytes": 53926,
+      "path": "portfolio_notebook.ipynb",
+      "sha256": "42b53e0c4e01dfd81e66204bf6687cf5db40d38c3893ba156260ead4b903424a"
+    },
+    {
+      "bytes": 640,
+      "path": "pyproject.toml",
+      "sha256": "c3de5f8b4bee3fabb59d3063c777b536a02cf453e70baffab6618dc1409c11c4"
+    },
+    {
+      "bytes": 1232,
+      "path": "reproduce.py",
+      "sha256": "ec3607a010e078f5e3999d9cd39f4b73a670eabe65519bb5d58c90f9d8dac47c"
+    },
+    {
+      "bytes": 226,
+      "path": "requirements.txt",
+      "sha256": "4ab26910aea122977116a5c5bcdbe193351ee19602a69163aee7d9a726e069a9"
+    },
+    {
+      "bytes": 6994,
+      "path": "scripts/audit_component_graph.py",
+      "sha256": "2bbf5e615790fd10451878392f00a3b69a21837a68e95c5e9dd7bdabb0ac8185"
+    },
+    {
+      "bytes": 2769,
+      "path": "scripts/bootstrap.py",
+      "sha256": "1e7f55cd9ab3247df7b2217635667f1c05c093fce82d494a21c6e9cf43394483"
+    },
+    {
+      "bytes": 4613,
+      "path": "scripts/build_kaggle_companion.py",
+      "sha256": "d27103397b7c8b80aee67627c4b5b03fddda30e59102ea800e74581e4da9745d"
+    },
+    {
+      "bytes": 43889,
+      "path": "scripts/build_portfolio_notebook.py",
+      "sha256": "64138c806157509b542b637eb879a971e989bf39450f5e24b0eeed9b65732334"
+    },
+    {
+      "bytes": 4176,
+      "path": "scripts/evaluate_frozen_policy.py",
+      "sha256": "ea2234621a835443157ad490441b5eba0e633f6281d02e0ab18689e3748b3dd1"
+    },
+    {
+      "bytes": 4277,
+      "path": "scripts/evaluate_meta_shrinkage.py",
+      "sha256": "b45caa3fc1a036588f9d88a622bb1bac4123d29fd29a7197173c096938799df1"
+    },
+    {
+      "bytes": 1665,
+      "path": "scripts/evaluate_robustness.py",
+      "sha256": "10aa9af023a3ff711e31e73c394c4bd34887d54928243b9fe155ef606049f45e"
+    },
+    {
+      "bytes": 1265,
+      "path": "scripts/execute_portfolio_notebook.py",
+      "sha256": "ac9ae7ef03c594efc338b4aca3be09c8e7b839e182e2eddb7dabdcb316616735"
+    },
+    {
+      "bytes": 7693,
+      "path": "scripts/experiment_group_robust_stack.py",
+      "sha256": "fccf6ec5cebbfeb77d666f1159b6b7fd7976627d62f14027e25b6b91b87c0372"
+    },
+    {
+      "bytes": 8686,
+      "path": "scripts/experiment_trust_region_ridge.py",
+      "sha256": "f5fe86f8b632a74b1a581066d11f85be87423b8b5ea381c404dbd86f85bb9421"
+    },
+    {
+      "bytes": 2332,
+      "path": "scripts/fit_primary_policy.py",
+      "sha256": "db4f3d4af0f2c6164a067e323df6390dde92caa5ece0a3bd01674d1a03e3a258"
+    },
+    {
+      "bytes": 8476,
+      "path": "scripts/freeze_historical_features.py",
+      "sha256": "ba03e6b521a3a07eba6df36ec7178a2f8870911b8468b2fc7263797370b73063"
+    },
+    {
+      "bytes": 2556,
+      "path": "scripts/qa_math_render.py",
+      "sha256": "31c6f877b17313e95590b42baa3a1e259f25e574236191f244c6f50010f0faf7"
+    },
+    {
+      "bytes": 9250,
+      "path": "scripts/register_refit_seed_panel.py",
+      "sha256": "1130ea5b06272220e2e536d605c32be6c436362e28be62c12f0fc0a2d9fc5f9d"
+    },
+    {
+      "bytes": 2404,
+      "path": "scripts/run_deployment_smoke.py",
+      "sha256": "c581df9f7c0100eaa9203c9be40007c8487e9f9c463a3ef2f40b29afb007a154"
+    },
+    {
+      "bytes": 11062,
+      "path": "scripts/run_refit_seed_validation.py",
+      "sha256": "09ca5e492fa6f6466ed1e94ea40c5fd46b760754d48c51566e7f5cea49ee31a1"
+    },
+    {
+      "bytes": 1276,
+      "path": "scripts/run_regret_router.py",
+      "sha256": "d341d71a28ad29bc61811ed7c6682f1f990cdcc5d6db7843d02948bff6971573"
+    },
+    {
+      "bytes": 955,
+      "path": "scripts/run_reproduce.py",
+      "sha256": "c97fc8be3de6ba39a95b8c900e817f297edde51b86d434d4a5c9e76ad2c027fc"
+    },
+    {
+      "bytes": 11187,
+      "path": "scripts/verify_reproduction.py",
+      "sha256": "34904e108b3dba43fd5f380c3bf3db318ee0352219a27e17af6aee76c18eca1b"
+    },
+    {
+      "bytes": 280,
+      "path": "src/rogii_portfolio/__init__.py",
+      "sha256": "ea66d394b1ac9f46b5525407a819bc6447743ae34a2ab305b7dad357fe1be2c5"
+    },
+    {
+      "bytes": 7136,
+      "path": "src/rogii_portfolio/artifacts.py",
+      "sha256": "03ad9298e91d05af06b35cb24c7acd561ef3d34fd20ecc5fab7df7832d341bf1"
+    },
+    {
+      "bytes": 7108,
+      "path": "src/rogii_portfolio/components.py",
+      "sha256": "00da2d3541a8578b707fa939017db2728b3f21058770c8bd416da926d1a5a4ef"
+    },
+    {
+      "bytes": 9644,
+      "path": "src/rogii_portfolio/contracts.py",
+      "sha256": "460c9a02f6071f32c0b22c04472f9b83a58765f93cfaefeb223c8b60fe5ddecc"
+    },
+    {
+      "bytes": 5808,
+      "path": "src/rogii_portfolio/deployment.py",
+      "sha256": "e1060435d9b719a4d1cd91565bfa83d4017397a14ca562cc407d6a09cf66a0d7"
+    },
+    {
+      "bytes": 38874,
+      "path": "src/rogii_portfolio/evaluation.py",
+      "sha256": "a83d17fbd4a50acf8ba29216bfe9b93c9ef800d30ea8f36ed8fe00c50ee0a69f"
+    },
+    {
+      "bytes": 11077,
+      "path": "src/rogii_portfolio/features.py",
+      "sha256": "122f8bba0dcb07671ea4990907f3c954b1b014627dfbe8cca818fc09c2c2fb39"
+    },
+    {
+      "bytes": 20981,
+      "path": "src/rogii_portfolio/geohmm.py",
+      "sha256": "af00927d07c5a626148bed1f926580134836af134524b95ae0945ac21cc76e46"
+    },
+    {
+      "bytes": 5803,
+      "path": "src/rogii_portfolio/group_robust.py",
+      "sha256": "55952ae13ba464a6198db027a53d3893c9563ee23dc53cb4dc142aa7bd156b1f"
+    },
+    {
+      "bytes": 4442,
+      "path": "src/rogii_portfolio/hgrg.py",
+      "sha256": "f0d452d8f4a209b2913d912461f6b05e1786e9b07086c8a6884ef668fba0af58"
+    },
+    {
+      "bytes": 27348,
+      "path": "src/rogii_portfolio/historical_features.py",
+      "sha256": "249bb7fc69ef46c9fa56de97c2d1035370fe4d8fd6ed3528a70e547a809752ee"
+    },
+    {
+      "bytes": 2716,
+      "path": "src/rogii_portfolio/io.py",
+      "sha256": "7213e141efa0f6433814e5ac37f5b2f8db40c072f95050133a3d5900b625e32a"
+    },
+    {
+      "bytes": 7491,
+      "path": "src/rogii_portfolio/meta_state.py",
+      "sha256": "d1b5a498e1773205fabd0312af1e5efb233a2e6fc044613cdc62778acad9f07a"
+    },
+    {
+      "bytes": 3469,
+      "path": "src/rogii_portfolio/models.py",
+      "sha256": "f1c7ac36d6c9c9d492de3d8c0c884f0473564102cf06affd16d457cf1bfe786d"
+    },
+    {
+      "bytes": 3168,
+      "path": "src/rogii_portfolio/overlays.py",
+      "sha256": "e7c7ca2ed43358b12753f0d6d7801d50895f15ff85656895374cc5c3039e0a2f"
+    },
+    {
+      "bytes": 2345,
+      "path": "src/rogii_portfolio/parents.py",
+      "sha256": "d034e92aeff25ec45230df9115700c9465073fb8c08f7769927b99948247f3be"
+    },
+    {
+      "bytes": 16083,
+      "path": "src/rogii_portfolio/particle.py",
+      "sha256": "f5217b3c6818a8f88cb66d44743ab58e3e1f40360a61cdb15b7f3c27895bd77f"
+    },
+    {
+      "bytes": 8911,
+      "path": "src/rogii_portfolio/physics.py",
+      "sha256": "079b479a55d5baa8ea64ecd34ee216d872fce950d6ce779ad60de85040727ad7"
+    },
+    {
+      "bytes": 19963,
+      "path": "src/rogii_portfolio/pipeline.py",
+      "sha256": "0a6698bded045ee9fc9b774a578de0cf147dc16c303d21bbdb116da76bf20c7e"
+    },
+    {
+      "bytes": 13917,
+      "path": "src/rogii_portfolio/refit_stability.py",
+      "sha256": "2779d100266ab26fed976042046928c7388ab02fd64ab6da04afa9e5c6287c09"
+    },
+    {
+      "bytes": 13136,
+      "path": "src/rogii_portfolio/regret_router.py",
+      "sha256": "9c6fe40368872225d698a6bdd6515d9450c16868df08ce1c403dbb753232506a"
+    },
+    {
+      "bytes": 5157,
+      "path": "src/rogii_portfolio/reproduce.py",
+      "sha256": "7432e585101c43d34a5b85affd3b3d63d9c1d0d1f006166c95f1b485ec121a74"
+    },
+    {
+      "bytes": 4431,
+      "path": "src/rogii_portfolio/stack.py",
+      "sha256": "f6dc87b0d3189b62c9125beb5b3b8805d94aeb7d311ea4ebeee564c5020f0d81"
+    },
+    {
+      "bytes": 16173,
+      "path": "src/rogii_portfolio/switching_state.py",
+      "sha256": "728b99f145250fcf2bfbe11bb1ecec761c84987c6c1a6278820e46918ce0792a"
+    },
+    {
+      "bytes": 2496,
+      "path": "src/rogii_portfolio/synthetic.py",
+      "sha256": "38d5103717252d0d369688bc8a638c2b11703ce36174ab4e43df5ffc63dd5cfc"
+    },
+    {
+      "bytes": 3467,
+      "path": "src/rogii_portfolio/trust_region.py",
+      "sha256": "fbd77328a74e8063ae5906f6aebcbb66c4d836106b83fee0cfdaa5efe4a4c262"
+    },
+    {
+      "bytes": 7961,
+      "path": "tests/test_contracts.py",
+      "sha256": "4e3d3df0ee0b6a487b94ec7192cd1e1756a21cb428f494df23700c526daff4bb"
+    },
+    {
+      "bytes": 2606,
+      "path": "tests/test_deployment.py",
+      "sha256": "181f7ca208c95495d58b08ca4ecd6c6f9f8d810d69c6fd613c20203a9450b61e"
+    },
+    {
+      "bytes": 4144,
+      "path": "tests/test_evaluation.py",
+      "sha256": "55963fa91e8044b1d4405f74843228d92e4c4575944731e864b25a1dcae4f07a"
+    },
+    {
+      "bytes": 1316,
+      "path": "tests/test_group_robust.py",
+      "sha256": "db0a91738172b91708119fe800ac6971f6d0aeb3876f5156c07cd2f547b92c8d"
+    },
+    {
+      "bytes": 3145,
+      "path": "tests/test_historical_features.py",
+      "sha256": "5e2bb4ccb6ef4dc88b5dcb1a66451d2dbe68910857d06137a4df8888b78f8949"
+    },
+    {
+      "bytes": 2995,
+      "path": "tests/test_nested_smoke.py",
+      "sha256": "457880b35990b948738de5f19690be45c8c578a38dbee15553b7e507125d4f09"
+    },
+    {
+      "bytes": 1579,
+      "path": "tests/test_refit_stability.py",
+      "sha256": "2e0625ace637ba2d2bfa18cb503797bb6d976af318fe3905822700f2458fe505"
+    },
+    {
+      "bytes": 2379,
+      "path": "tests/test_regret_router.py",
+      "sha256": "8c9a08666be5ea5c401e4d546169f3869ac20cf702f95537e73be73fce63d472"
+    },
+    {
+      "bytes": 10772,
+      "path": "tests/test_switching_state.py",
+      "sha256": "f01a3c3bc873b00b1a1791fffef1d37b0dafdeff4d5460b0e8440c3be22165ad"
+    },
+    {
+      "bytes": 877,
+      "path": "tests/test_trust_region.py",
+      "sha256": "a93e9c330bc41730176d5995e7d51ef50149f913148d442d3ad5841ff8600fba"
+    }
+  ],
+  "schema": "rogii_portfolio_source_manifest_v1"
+}

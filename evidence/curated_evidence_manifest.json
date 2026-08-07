@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "bytes": 1113,
+      "path": "evidence/historical_stage_scores.csv",
+      "sha256": "fcb2c16182a4200b5959f91990d570abf604fefb11d0b3e79c5aa942e3653114"
+    },
+    {
+      "bytes": 613,
+      "path": "evidence/method_lineage.json",
+      "sha256": "a650c79363501b292b69117e83ad5bd52194a6b6c916e0b34fc9ccd2437bff5e"
+    },
+    {
+      "bytes": 1094,
+      "path": "evidence/optimizer_v1b_selected_recipes.csv",
+      "sha256": "5fd2ce39c725f496c49f2a7cc6582da189509c0167a765ae56d37d8455a5a575"
+    },
+    {
+      "bytes": 4044,
+      "path": "evidence/optimizer_v1b_full_summary.json",
+      "sha256": "f54f3e7ad5bc6dbb3eabe5a0d8056e56494303d711769f4476f0b495e61c864a"
+    },
+    {
+      "bytes": 1645,
+      "path": "evidence/optimizer_v1b_fold_metrics.csv",
+      "sha256": "f2e6d25beca48e8d3c34cc2d13f20bf8230dbc6fa4c3110f8ed801ce953267bf"
+    }
+  ],
+  "schema": "rogii_portfolio_curated_evidence_manifest_v1"
+}

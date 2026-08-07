@@ -1,0 +1,110 @@
+{
+  "component_bootstrap": {
+    "nested_stack_vs_incumbent": {
+      "ci95_high": 0.1663316768192107,
+      "ci95_low": -0.1668905446387447,
+      "components": 2,
+      "draws": 300,
+      "gain_mean": -0.026863848238057115,
+      "probability_positive": 0.24666666666666667
+    },
+    "sequential_final_vs_incumbent": {
+      "ci95_high": 0.18121241618251155,
+      "ci95_low": -0.18612996483477545,
+      "components": 2,
+      "draws": 300,
+      "gain_mean": -0.03224079925116661,
+      "probability_positive": 0.24666666666666667
+    }
+  },
+  "component_graph_scope_wells": 18,
+  "components": 9,
+  "config": {
+    "bootstrap_draws": 300,
+    "extra": {
+      "synthetic_rows": 120,
+      "synthetic_wells": 18
+    },
+    "gr_similarity_threshold": 0.985,
+    "hmm_checkpoint": 24,
+    "hmm_stride": 6,
+    "holdout_fraction": 0.2,
+    "inner_folds": 2,
+    "jobs": 1,
+    "mode": "smoke",
+    "model_l2": 1.0,
+    "model_learning_rate": 0.06,
+    "model_max_iter": 25,
+    "model_max_leaf_nodes": 15,
+    "outer_folds": 3,
+    "pf_particles": 48,
+    "pf_seeds": 3,
+    "prefix_fraction": 0.62,
+    "seed": 20260806,
+    "similarity_radius_ft": 12000.0,
+    "spatial_radius_ft": 1500.0,
+    "stack_ridge": 0.02
+  },
+  "contract": "fully_nested_geological_component_cv_plus_single_untouched_holdout",
+  "development_components": 7,
+  "development_wells": 14,
+  "feature_count": 121,
+  "final_stack": {
+    "fit_source": "outer_oof_development_only",
+    "parent_weight": 0.07795380171098909,
+    "weights": {
+      "hgrg": 0.05820526560582808,
+      "meta_state": 1.8348768233192284e-17,
+      "prefix_boundary": 0.41480532289162314,
+      "sequential_final": 0.4490356097915597
+    }
+  },
+  "historical_lineage_note": "The scored 9.091 lineage is incumbent\u2192HGRG\u2192Meta-State\u2192Prefix-Boundary\u2192shape. The 121-feature retrain and nested stack are separately reported research controls.",
+  "holdout_components": 2,
+  "holdout_wells": 4,
+  "mode": "smoke",
+  "outer_oof_rmse": {
+    "hgrg": 0.6268813869198304,
+    "incumbent": 0.6354177376669972,
+    "meta_state": 0.614281077335466,
+    "nested_stack": 0.30489962257627734,
+    "nonlinear": 0.5062195212082047,
+    "pf": 0.861251752987488,
+    "prefix_boundary": 0.3058095505458939,
+    "ridge": 0.33660771037624376,
+    "sequential_final": 0.32290132915426334,
+    "state": 0.63541358206367
+  },
+  "target_isolation": {
+    "component_overlap_count": 0,
+    "holdout_used_for_selection": false,
+    "model_frame_columns": [
+      "MD",
+      "X",
+      "Y",
+      "Z",
+      "GR",
+      "TVT_input"
+    ],
+    "official_prefix_fallback_to_truth_count": 0,
+    "scoring_truth_object_separate_from_model_input": true,
+    "suffix_truth_in_prediction_api": false
+  },
+  "untouched_holdout_gain": {
+    "nested_stack_vs_incumbent": -0.0534946980222899,
+    "sequential_final_vs_incumbent": -0.06365632948120503
+  },
+  "untouched_holdout_rmse": {
+    "hgrg": 0.4349704273030194,
+    "incumbent": 0.4383437941598449,
+    "meta_state": 0.46768393785921736,
+    "nested_stack": 0.4918384921821348,
+    "nonlinear": 0.5160598256409032,
+    "pf": 0.5513639815552557,
+    "prefix_boundary": 0.5381398441220946,
+    "ridge": 0.3908506690207568,
+    "sequential_final": 0.50200012364105,
+    "state": 0.6086310273804999
+  },
+  "wells": 18
+}

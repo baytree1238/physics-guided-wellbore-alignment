@@ -1,0 +1,21 @@
+{
+  "scored_lineage": [
+    "incumbent baseline",
+    "Hierarchical Geology Regret Gate",
+    "Meta-State",
+    "Prefix-Boundary",
+    "conditional stride-6 GeoHMM shape"
+  ],
+  "separate_research_controls": [
+    "121-feature FAST-SAFE nonlinear retrain",
+    "nested convex residual stack",
+    "optimizer/epoch/decoder sweep"
+  ],
+  "claim_rule": "Scores from separate populations or parents are never added into one cumulative ladder.",
+  "final_observation": {
+    "visible_rmse": 6.536,
+    "hidden_rmse": 9.091,
+    "eligible_for_medal": false,
+    "reason": "completed after the competition cutoff"
+  }
+}

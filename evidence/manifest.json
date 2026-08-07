@@ -1,0 +1,48 @@
+{
+  "artifacts": [
+    {
+      "bytes": 98014,
+      "path": "evidence/example_trajectory.png",
+      "sha256": "1f965163f897482896e80a1500445edf21e2595af8ebd39dbadb661d0a47dbb4"
+    },
+    {
+      "bytes": 955,
+      "path": "evidence/geological_components.csv",
+      "sha256": "6398c806cb855f47b09df4570f9379186cdac41267e4da8dea05eb171594255c"
+    },
+    {
+      "bytes": 75114,
+      "path": "evidence/outer_fold_gains.png",
+      "sha256": "6263673ce281a209d7c4c634bd36968a7a635122a3579ff0e8fc85e831924c42"
+    },
+    {
+      "bytes": 712,
+      "path": "evidence/outer_fold_metrics.csv",
+      "sha256": "8e37c8e37b63100753f00782c81cc29a9a1871a8cef198bdc9374c62e6113eaa"
+    },
+    {
+      "bytes": 59561,
+      "path": "evidence/outer_oof_predictions.csv.gz",
+      "sha256": "161c5674db73d51a72b3999de443a009f8fc1e743b88f8e181265b93cae326ec"
+    },
+    {
+      "bytes": 3302,
+      "path": "evidence/reproduction_summary.json",
+      "sha256": "1d2401332bfc2499071bd07219e8fea1e34e48f509c32d2d82994f4cf31a1a0f"
+    },
+    {
+      "bytes": 51344,
+      "path": "evidence/rmse_by_stage.png",
+      "sha256": "b66b56d48302b33532102850bd188b1f831b5bd735f36919ef839e3748e7dcb3"
+    },
+    {
+      "bytes": 17452,
+      "path": "evidence/untouched_holdout_predictions.csv.gz",
+      "sha256": "f35dfd1882defabff8aee2a6a9bc16ccd0cfbd9e7bd527ee42003230f23a8c95"
+    }
+  ],
+  "config_sha256": "efb85519b106a951143d889eb9127bc111f3d9f4cb1173a16e7de369c84e3461",
+  "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+  "python": "3.12.3",
+  "schema": "rogii_portfolio_reproduction_v1"
+}

@@ -1,0 +1,77 @@
+{
+  "schema": "rogii_robustness_registry_v1",
+  "baseline": "incumbent",
+  "models": [
+    "pf",
+    "ridge",
+    "nonlinear",
+    "incumbent",
+    "hgrg",
+    "state",
+    "meta_state",
+    "prefix_boundary",
+    "sequential_final",
+    "nested_stack"
+  ],
+  "horizon_upper_bounds_ft": [250, 500, 1000, 2000],
+  "worst_component_fraction": 0.10,
+  "component_bootstrap": {
+    "draws": 2000,
+    "seed": 20260807
+  },
+  "disjoint_panels": [
+    ["primary_160", "complement_160"]
+  ],
+  "contracts": [
+    {
+      "contract_id": "primary_outer_oof",
+      "panel": "primary_160",
+      "split": "outer_oof",
+      "role": "policy_development",
+      "training_seed": 20260806,
+      "predictions": "artifacts/realdata_nested_160/evidence/outer_oof_predictions.csv.gz",
+      "components": "artifacts/realdata_nested_160/evidence/geological_components.csv",
+      "summary": "artifacts/realdata_nested_160/evidence/reproduction_summary.json",
+      "config": "configs/realdata_nested_160.json",
+      "manifest": "artifacts/realdata_nested_160/evidence/manifest.json",
+      "fold_metrics": "artifacts/realdata_nested_160/evidence/outer_fold_metrics.csv"
+    },
+    {
+      "contract_id": "primary_holdout",
+      "panel": "primary_160",
+      "split": "holdout",
+      "role": "run_level_holdout",
+      "training_seed": 20260806,
+      "predictions": "artifacts/realdata_nested_160/evidence/untouched_holdout_predictions.csv.gz",
+      "components": "artifacts/realdata_nested_160/evidence/geological_components.csv",
+      "summary": "artifacts/realdata_nested_160/evidence/reproduction_summary.json",
+      "config": "configs/realdata_nested_160.json",
+      "manifest": "artifacts/realdata_nested_160/evidence/manifest.json"
+    },
+    {
+      "contract_id": "complement_outer_oof",
+      "panel": "complement_160",
+      "split": "outer_oof",
+      "role": "disjoint_confirmation",
+      "training_seed": 20260806,
+      "predictions": "artifacts/realdata_nested_160_confirmation/evidence/outer_oof_predictions.csv.gz",
+      "components": "artifacts/realdata_nested_160_confirmation/evidence/geological_components.csv",
+      "summary": "artifacts/realdata_nested_160_confirmation/evidence/reproduction_summary.json",
+      "config": "configs/realdata_nested_160_confirmation.json",
+      "manifest": "artifacts/realdata_nested_160_confirmation/evidence/manifest.json",
+      "fold_metrics": "artifacts/realdata_nested_160_confirmation/evidence/outer_fold_metrics.csv"
+    },
+    {
+      "contract_id": "complement_holdout",
+      "panel": "complement_160",
+      "split": "holdout",
+      "role": "confirmation_run_level_holdout",
+      "training_seed": 20260806,
+      "predictions": "artifacts/realdata_nested_160_confirmation/evidence/untouched_holdout_predictions.csv.gz",
+      "components": "artifacts/realdata_nested_160_confirmation/evidence/geological_components.csv",
+      "summary": "artifacts/realdata_nested_160_confirmation/evidence/reproduction_summary.json",
+      "config": "configs/realdata_nested_160_confirmation.json",
+      "manifest": "artifacts/realdata_nested_160_confirmation/evidence/manifest.json"
+    }
+  ]
+}
