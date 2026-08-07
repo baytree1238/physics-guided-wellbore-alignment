@@ -242,13 +242,24 @@ than the wins:
   component alone reached 149.5 ft RMSE against the incumbent's 33.6 ft.
 - **Four-regime switching-state model.** Worse on Primary160 OOF (15.2866 vs
   14.8993) and on its run-level holdout (14.6019 vs 13.9504).
-- **Longer heel-slope initialization** and **three-dimensional chord
-  increments.** Rejected on transfer; no per-experiment numbers were kept.
+- **Longer heel-slope initialization.** Improved Dev40 by 0.5606 ft, then
+  reversed to −1.7922 ft on frozen Exact80 transfer. The standalone audit and
+  evidence are preserved in [`PF_INITIAL_STATE_AUDIT.md`](PF_INITIAL_STATE_AUDIT.md).
+- **Three-dimensional chord increments.** Improved Dev40 by 0.1695 ft, then
+  reversed to −0.0777 ft on Exact80. The physical and transfer analysis is in
+  [`PF_STEP_DISCRETIZATION_AUDIT.md`](PF_STEP_DISCRETIZATION_AUDIT.md).
 
 All six are disabled in the default path. The Ridge-heavy failure is the one I
 would show first: it looked excellent on the panel that selected it, which is
 exactly what a leaking validation design is supposed to prevent me from
 believing.
+
+The four commits behind those last two results were imported unsquashed from
+the earlier research repository. They are post-run archival snapshots, not a
+second-by-second execution history; their closely spaced timestamps record a
+batch publication. See
+[`docs/IMPORTED_EXPERIMENT_PROVENANCE.md`](docs/IMPORTED_EXPERIMENT_PROVENANCE.md)
+for source SHAs, selection rationale, dependency limits, and integrity checks.
 
 ## Repository guide
 
