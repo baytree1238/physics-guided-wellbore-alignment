@@ -181,7 +181,7 @@ The promotion rule was:
 Throughout the project,
 
 $$
-\operatorname{gain} = RMSE_{parent} - RMSE_{candidate},
+\mathrm{gain} = RMSE_{parent} - RMSE_{candidate},
 $$
 
 so a positive value indicates improvement. Results are compared only when the
