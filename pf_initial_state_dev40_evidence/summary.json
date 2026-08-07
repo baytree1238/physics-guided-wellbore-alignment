@@ -1,0 +1,66 @@
+{
+  "method": "pf_initial_structural_rate_audit_v1",
+  "scope": "Dev40 discovery",
+  "created_submission_csv": false,
+  "registered_grid": {
+    "windows": [
+      15,
+      30,
+      60,
+      120
+    ],
+    "estimators": [
+      "median_difference",
+      "endpoint",
+      "ols"
+    ],
+    "shrinks": [
+      0.0,
+      0.5,
+      1.0
+    ],
+    "arms": 36,
+    "computed_unique_arms": 25
+  },
+  "reference": {
+    "arm": "w030_median_difference_s1.0",
+    "rmse": 7.507194624399718,
+    "float32_bit_exact_vs_archive": true,
+    "max_abs_vs_archive": 0.0
+  },
+  "selection_gate": "Dev only: 5/5 positive folds AND well-bootstrap 95% CI low > 0 AND pooled gain >= 0.05",
+  "selected_arm": "w120_endpoint_s1.0",
+  "best_arm": {
+    "arm": "w120_endpoint_s1.0",
+    "window": 120,
+    "estimator": "endpoint",
+    "shrink": 1.0,
+    "rmse": 6.946554367979549,
+    "gain_vs_reference": 0.5606402564201689,
+    "positive_folds": 5,
+    "min_fold_gain": 0.2928223656112543,
+    "fold_gains": "[0.2928223656112543, 0.5002067980673619, 0.8656494469867386, 0.8852327896141574, 0.35175426273932864]",
+    "bootstrap_ci_low": 0.044632580970371614,
+    "bootstrap_ci_high": 1.2054701012932558,
+    "passes_gate": true
+  },
+  "target_isolation": {
+    "horizontal_prediction_columns": [
+      "MD",
+      "Z",
+      "GR",
+      "TVT_input"
+    ],
+    "typewell_prediction_columns": [
+      "TVT",
+      "GR"
+    ],
+    "suffix_tvt_seen_by_prediction": false
+  },
+  "runtime": {
+    "wall_seconds": 1130.1603482750015,
+    "summed_worker_seconds": 4305.675979037998,
+    "workers": 4
+  },
+  "decision": "TRANSFER_SELECTED_ARM_TO_EXACT80"
+}

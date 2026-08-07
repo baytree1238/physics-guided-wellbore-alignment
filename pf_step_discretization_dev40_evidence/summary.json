@@ -1,0 +1,64 @@
+{
+  "method": "continuous_time_ou_step_and_xyz_chord_pf_audit_v1",
+  "scope": "Dev40 discovery only",
+  "created_submission_csv": false,
+  "target_isolation": {
+    "horizontal_prediction_columns": [
+      "MD",
+      "X",
+      "Y",
+      "Z",
+      "GR",
+      "TVT_input"
+    ],
+    "typewell_prediction_columns": [
+      "TVT",
+      "GR"
+    ],
+    "suffix_tvt_seen_by_prediction": false
+  },
+  "delta_md": {
+    "rows": 191205,
+    "minimum": 1.0,
+    "maximum": 1.0,
+    "fraction_not_exactly_one": 0.0,
+    "ou_transform_algebraically_identical": true,
+    "rmse_change": 0.0
+  },
+  "xyz_chord": {
+    "step_quantiles": {
+      "0.0": 0.9863569332946504,
+      "0.01": 0.9908582137706811,
+      "0.5": 0.9998499885392542,
+      "0.99": 1.0088607438686996,
+      "1.0": 1.0136074190308384
+    },
+    "pf_rmse": 7.337678900741657,
+    "incumbent_pf_rmse": 7.507194624399718,
+    "gain_vs_incumbent_pf": 0.1695157236580611,
+    "fold_gains": [
+      0.4809276063967829,
+      0.2233382080255506,
+      -1.4301606889748273,
+      0.5379697215717192,
+      0.7772115300005247
+    ],
+    "positive_folds": 4
+  },
+  "best_arm": {
+    "arm": "xyz_chord_pf_plus_25pct_stride6_hmm",
+    "rmse": 6.351102270532893,
+    "gain_vs_incumbent_pf": 1.1560923538668249,
+    "fold_scores": "[7.401418025208686, 4.869771971785829, 6.221508552655513, 5.756832331253504, 7.174906890770991]"
+  },
+  "runtime": {
+    "wall_seconds": 34.435624298999755,
+    "summed_worker_seconds": 134.51574622199587,
+    "workers": 4
+  },
+  "decision": "HOLD_UNLESS_CHORD_TRANSFER_IS_MATERIAL_AND_STABLE",
+  "limitations": [
+    "Dev40 is a discovery panel, not a fresh confirmation panel.",
+    "3-D chord length is a straight-line approximation; MD is the physical along-hole arc length."
+  ]
+}
