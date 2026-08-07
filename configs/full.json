@@ -1,0 +1,23 @@
+{
+  "seed": 20260806,
+  "prefix_fraction": 0.62,
+  "outer_folds": 5,
+  "inner_folds": 4,
+  "holdout_fraction": 0.20,
+  "pf_seeds": 12,
+  "pf_particles": 500,
+  "hmm_stride": 6,
+  "hmm_checkpoint": 48,
+  "model_max_iter": 200,
+  "model_max_leaf_nodes": 63,
+  "model_learning_rate": 0.03,
+  "model_l2": 3.0,
+  "spatial_radius_ft": 1000.0,
+  "gr_similarity_threshold": 0.95,
+  "similarity_radius_ft": 12000.0,
+  "stack_ridge": 0.02,
+  "bootstrap_draws": 5000,
+  "jobs": 1,
+  "mode": "full",
+  "extra": {}
+}

@@ -1,0 +1,28 @@
+{
+  "seed": 20260806,
+  "prefix_fraction": 0.62,
+  "outer_folds": 5,
+  "inner_folds": 3,
+  "holdout_fraction": 0.20,
+  "pf_seeds": 2,
+  "pf_particles": 32,
+  "hmm_stride": 24,
+  "hmm_checkpoint": 24,
+  "model_max_iter": 15,
+  "model_max_leaf_nodes": 31,
+  "model_learning_rate": 0.05,
+  "model_l2": 1.0,
+  "spatial_radius_ft": 1000.0,
+  "gr_similarity_threshold": 0.95,
+  "similarity_radius_ft": 12000.0,
+  "stack_ridge": 0.02,
+  "bootstrap_draws": 2000,
+  "jobs": 1,
+  "mode": "full",
+  "extra": {
+    "max_wells": 160,
+    "component_graph_scope": "full_universe",
+    "component_subset": "complement_of_primary",
+    "purpose": "independent component confirmation panel frozen after primary-OOF policy selection"
+  }
+}
