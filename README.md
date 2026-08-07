@@ -29,15 +29,22 @@ repository next to the contract that rejected it.
 | Core methods | Particle filter, GeoHMM, HGRG, regional state-space fusion, bounded boundary and shape corrections |
 | Validation unit | Connected geological components, not rows or individual wells |
 | Primary metric | Row-level RMSE in feet |
-| Historical submitted run | 6.536 visible RMSE, 9.091 hidden RMSE |
+| Historical code run | 6.536 RMSE on the visible evaluation partition; 9.091 RMSE on the hidden execution partition |
 | Reproducible package | [`src/rogii_portfolio/`](src/rogii_portfolio/) |
 | Best place to start | [Executed research notebook](portfolio_notebook_executed.ipynb) |
 
-That hidden score belongs to the whole submission pipeline, so it is one
-observation of the full path and not an ablation result for any single overlay.
-The run also finished after the competition deadline and was never eligible for
-the official ranking. Both facts are here because leaving either out would
-misrepresent the experiment.
+`Visible` and `hidden` refer to two platform evaluation partitions for this
+code run. The visible score was exposed during normal submission scoring. The
+hidden score came from the separate partition evaluated during the submitted
+code execution; it is not a Kaggle private leaderboard score. The competition
+was still open when this note was updated, so no final private leaderboard had
+been released.
+
+The hidden evaluation finished after the competition deadline, so the run was
+not added to the competition leaderboard. At the time it completed, 9.091 was
+inside the displayed bronze-medal score range. The run received no official
+rank or medal. Both scores belong to the complete submission pipeline and are
+not ablation results for individual overlays.
 
 ## The problem
 
