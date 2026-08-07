@@ -46,6 +46,11 @@ inside the displayed bronze-medal score range. The run received no official
 rank or medal. Both scores belong to the complete submission pipeline and are
 not ablation results for individual overlays.
 
+**Repository provenance:** The original competition research was developed
+iteratively in local notebooks. This repository was subsequently refactored
+into a reproducible package, with historical experiments and artifacts
+preserved where available.
+
 ## The problem
 
 Each horizontal well contains:
