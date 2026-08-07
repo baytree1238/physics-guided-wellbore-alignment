@@ -1,0 +1,5 @@
+contract,split,rows,wells,components,incumbent_rmse,sequential_rmse,gain_ft,sequential_macro_component_rmse,harmed_well_rate,sequential_worst_10pct_cvar
+Primary160,Outer OOF,610751,126,96,15.555088,14.899251,0.655838,12.110886,0.269841,31.947929
+Primary160,Run holdout,148353,34,23,14.543160,13.950361,0.592799,11.713799,0.264706,28.194695
+Complement160,Outer OOF,636350,128,100,13.517732,12.600008,0.917724,9.995819,0.195312,27.828963
+Complement160,Run holdout,161424,32,24,15.476099,14.817390,0.658709,12.215284,0.281250,29.503546

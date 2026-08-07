@@ -1,0 +1,37 @@
+{
+  "config": {
+    "bootstrap_draws": 300,
+    "extra": {
+      "synthetic_rows": 120,
+      "synthetic_wells": 18
+    },
+    "gr_similarity_threshold": 0.985,
+    "hmm_checkpoint": 24,
+    "hmm_stride": 6,
+    "holdout_fraction": 0.2,
+    "inner_folds": 2,
+    "jobs": 1,
+    "mode": "smoke",
+    "model_l2": 1.0,
+    "model_learning_rate": 0.06,
+    "model_max_iter": 25,
+    "model_max_leaf_nodes": 15,
+    "outer_folds": 3,
+    "pf_particles": 48,
+    "pf_seeds": 3,
+    "prefix_fraction": 0.62,
+    "seed": 20260806,
+    "similarity_radius_ft": 12000.0,
+    "spatial_radius_ft": 1500.0,
+    "stack_ridge": 0.02
+  },
+  "csv_bytes": 2783,
+  "csv_sha256": "12cfb386acf2d951eaace10b96c76c8cb2c6986263cbb4cba7d14289a8ef41be",
+  "id_order_sha256": "04133134f392f3005d07bdf76890612b02991d94138b666bf3d6601304587963",
+  "lineage_mode": "retrained_cleanroom",
+  "prediction_float64_sha256": "7263b4a4719051ce1d0f245ecfe554385ee4623e80865093e139212b3c3a07d4",
+  "rows": 92,
+  "status": "PASS",
+  "targets_contained_tvt": false,
+  "training_wells": 18
+}

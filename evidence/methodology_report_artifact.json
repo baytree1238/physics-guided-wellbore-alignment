@@ -1,0 +1,310 @@
+{
+  "surface": "report",
+  "manifest": {
+    "version": 1,
+    "surface": "report",
+    "title": "A Constrained Physics-Guided Method for Wellbore Alignment",
+    "description": "Technical explanation of the protected-parent architecture, HGRG, role-separated corrections, and geological-component validation.",
+    "generatedAt": "2026-08-07T12:00:00+12:00",
+    "blocks": [
+      {
+        "id": "title",
+        "type": "markdown",
+        "layout": "full",
+        "body": "# A Constrained Physics-Guided Method for Wellbore Alignment"
+      },
+      {
+        "id": "technical-summary",
+        "type": "markdown",
+        "layout": "full",
+        "body": "## Technical summary\n\nA stable learned trajectory anchors the pipeline. Particle filtering and GeoHMM propose an alignment, HGRG sizes the move, and Meta-State adds regional structure. Boundary continuity and local shape are handled by two small overlays. The same target-free geological graph governs folds, holdout assignment, and bootstrap units. Sequential gain was positive in all ten saved outer folds across two disjoint 160-well panels."
+      },
+      {
+        "id": "headline-metrics",
+        "type": "metric-strip",
+        "layout": "full",
+        "cardIds": [
+          "fold-consistency",
+          "primary-oof-gain",
+          "complement-oof-gain",
+          "study-scope"
+        ]
+      },
+      {
+        "id": "key-finding-heading",
+        "type": "markdown",
+        "layout": "full",
+        "sourceId": "validation-summary",
+        "body": "## Results across both geological panels\n\nThe sequential method improved pooled RMSE in all four saved contracts. The direction was consistent across two disjoint panels and every outer fold. All contracts use training seed 20260806."
+      },
+      {
+        "id": "contract-rmse-chart",
+        "type": "chart",
+        "layout": "full",
+        "chartId": "contract-rmse"
+      },
+      {
+        "id": "contract-rmse-interpretation",
+        "type": "markdown",
+        "layout": "full",
+        "sourceId": "validation-summary",
+        "body": "The chart compares each candidate only with its matching incumbent and contract. Primary and Complement panels should not be added together. The Complement holdout is also the key caveat: pooled RMSE improved by 0.6587 ft while worst-10% component CVaR increased slightly, so average improvement did not imply universal safety."
+      },
+      {
+        "id": "fold-heading",
+        "type": "markdown",
+        "layout": "full",
+        "sourceId": "headline-summary",
+        "body": "## Outer-fold gains\n\nAll ten outer-fold gains are positive. The smallest gain was 0.2666 ft and the largest was 1.1221 ft."
+      },
+      {
+        "id": "fold-gain-chart",
+        "type": "chart",
+        "layout": "full",
+        "chartId": "fold-gains-chart"
+      },
+      {
+        "id": "method-heading",
+        "type": "markdown",
+        "layout": "full",
+        "sourceId": "methodology-document",
+        "body": "## Sequential method\n\n```text\nobservable inputs\n      |\n      +--> learned parent\n      +--> particle paths --------+\n      +--> GeoHMM alignment ------+--> HGRG bounded move\n      +--> training-only region --+         |\n                                             v\n                                      Meta-State trend\n                                             |\n                                             v\n                                      boundary continuity\n                                             |\n                                             v\n                                      centered local shape\n```\n\nDatum, regional trend, boundary hand-off, and local shape use separate movement budgets."
+      },
+      {
+        "id": "hgrg-heading",
+        "type": "markdown",
+        "layout": "full",
+        "sourceId": "hgrg-code",
+        "body": "## HGRG\n\nHGRG forms a PF/GeoHMM bridge and measures its displacement from the protected parent. PF/GeoHMM dispersion is normalized by the requested movement. The projection of the Ridge residual onto that movement provides a directional check. High relative disagreement or opposition from Ridge shrinks the coefficient. The accepted move ramps in over 250 ft and obeys a 2.5-ft well RMS budget and 10-ft row cap."
+      },
+      {
+        "id": "constraints-table-block",
+        "type": "table",
+        "layout": "full",
+        "tableId": "constraint-ledger"
+      },
+      {
+        "id": "scope-definitions",
+        "type": "markdown",
+        "layout": "full",
+        "sourceId": "methodology-document",
+        "body": "## Scope and metric definitions\n\nTVT is the geological target. The latent structural coordinate is U = TVT + Z, which separates geological motion from known borehole motion. Pooled RMSE weights rows equally. Macro-component RMSE weights connected geological components equally. Harmed-well rate is the share of wells whose candidate RMSE exceeds the incumbent. Worst-10% component CVaR is the mean RMSE of the worst ceiling of 10% of components. Outer OOF means every development prediction came from a model fitted without its component. Run holdout means complete components were excluded until the final development refit."
+      },
+      {
+        "id": "limitations",
+        "type": "markdown",
+        "layout": "full",
+        "sourceId": "robustness-document",
+        "body": "## Limitations\n\nThe saved contracts use one model-training seed. Component bootstrap draws measure sensitivity to represented geology. PF and GeoHMM spread is not calibrated as a prediction interval. The source data do not establish a coordinate reference system, which limits interpretation of spatial thresholds. The historical 9.091 submission depends on external artifacts and cannot be reconstructed byte for byte from this repository alone."
+      },
+      {
+        "id": "next-steps",
+        "type": "markdown",
+        "layout": "full",
+        "body": "## Next experiments\n\n1. Register at least three independent refits under one frozen split.\n2. Estimate expert second moments inside inner folds before enabling empirical constrained GLS.\n3. Predeclare a leave-region-out or externally defined type-well-family contract.\n4. Calibrate uncertainty at geological-component level.\n5. Require pooled and macro-component gains without a material tail-risk regression."
+      },
+      {
+        "id": "further-questions",
+        "type": "markdown",
+        "layout": "full",
+        "body": "## Further questions\n\nCan disagreement be converted into calibrated abstention rather than only movement shrinkage? Does an empirical correlated-error model transfer across regions? Which observable signatures distinguish a true geological regime change from a gamma-ray outlier? These questions require new frozen evidence rather than additional tuning on the existing panels."
+      }
+    ],
+    "cards": [
+      {
+        "id": "fold-consistency",
+        "description": "Sequential final improved every saved outer fold.",
+        "dataset": "headline",
+        "sourceId": "fold-gains",
+        "metrics": [
+          {"label": "Positive outer folds", "field": "positive_folds", "format": "number"},
+          {"label": "Total outer folds", "field": "total_folds", "format": "number"}
+        ]
+      },
+      {
+        "id": "primary-oof-gain",
+        "description": "Primary160 outer OOF gain against its matching incumbent.",
+        "dataset": "headline",
+        "sourceId": "headline-summary",
+        "metrics": [
+          {"label": "Primary OOF gain", "field": "primary_oof_gain", "format": "number", "signed": true}
+        ]
+      },
+      {
+        "id": "complement-oof-gain",
+        "description": "Complement160 outer OOF gain against its matching incumbent.",
+        "dataset": "headline",
+        "sourceId": "headline-summary",
+        "metrics": [
+          {"label": "Complement OOF gain", "field": "complement_oof_gain", "format": "number", "signed": true}
+        ]
+      },
+      {
+        "id": "study-scope",
+        "description": "Target-free similarity graph used by the robustness audit.",
+        "dataset": "headline",
+        "sourceId": "headline-summary",
+        "metrics": [
+          {"label": "Wells", "field": "wells", "format": "number"},
+          {"label": "Geological components", "field": "components", "format": "number"},
+          {"label": "Scored rows", "field": "rows", "format": "compact"}
+        ]
+      }
+    ],
+    "charts": [
+      {
+        "id": "contract-rmse",
+        "title": "Incumbent and sequential RMSE by validation contract",
+        "subtitle": "Four saved contracts; lower is better and each pair shares one parent and population",
+        "showDescription": true,
+        "intent": "comparison",
+        "question": "Did the sequential path improve its matching incumbent in every saved contract?",
+        "rationale": "Grouped bars preserve the four discrete contracts and avoid implying that gains from different populations are additive.",
+        "type": "bar",
+        "dataset": "validation_summary",
+        "sourceId": "validation-summary",
+        "encodings": {
+          "x": {"field": "contract", "type": "nominal", "label": "Validation contract"},
+          "y": {
+            "fields": ["incumbent_rmse", "sequential_rmse"],
+            "type": "quantitative",
+            "format": "number",
+            "label": "RMSE",
+            "unit": "ft"
+          },
+          "tooltip": [
+            {"field": "panel", "type": "nominal", "label": "Panel"},
+            {"field": "evaluation", "type": "nominal", "label": "Evaluation"},
+            {"field": "gain_ft", "type": "quantitative", "format": "number", "label": "Sequential gain", "unit": "ft"},
+            {"field": "rows", "type": "quantitative", "format": "compact", "label": "Rows"},
+            {"field": "wells", "type": "quantitative", "format": "number", "label": "Wells"},
+            {"field": "components", "type": "quantitative", "format": "number", "label": "Components"}
+          ]
+        },
+        "xAxisTitle": "Validation contract",
+        "yAxisTitle": "RMSE (ft; lower is better)",
+        "valueFormat": "number",
+        "unit": "ft",
+        "layout": "full",
+        "palette": {"kind": "categorical", "name": "neutral-blue"},
+        "settings": {"groupMode": "grouped", "showValues": true, "categoryLabelPolicy": "wrap"},
+        "surface": {"surface": "export", "viewMode": "both", "showControls": false}
+      },
+      {
+        "id": "fold-gains-chart",
+        "title": "Sequential RMSE gain across outer folds",
+        "subtitle": "Ten component-disjoint folds across Primary160 and Complement160; positive values favor sequential final",
+        "showDescription": true,
+        "intent": "comparison",
+        "question": "Was the transfer direction consistent across component folds?",
+        "rationale": "A single-series bar chart exposes every fold sign and magnitude without averaging away heterogeneous geology.",
+        "type": "bar",
+        "dataset": "fold_gains",
+        "sourceId": "fold-gains",
+        "encodings": {
+          "x": {"field": "fold_label", "type": "nominal", "label": "Panel and fold"},
+          "y": {"field": "gain_vs_incumbent_ft", "type": "quantitative", "format": "number", "label": "RMSE gain", "unit": "ft"},
+          "tooltip": [
+            {"field": "panel", "type": "nominal", "label": "Panel"},
+            {"field": "outer_fold", "type": "ordinal", "label": "Outer fold"},
+            {"field": "rows", "type": "quantitative", "format": "compact", "label": "Rows"},
+            {"field": "wells", "type": "quantitative", "format": "number", "label": "Wells"},
+            {"field": "components", "type": "quantitative", "format": "number", "label": "Components"}
+          ]
+        },
+        "xAxisTitle": "Panel and outer fold",
+        "yAxisTitle": "RMSE gain vs incumbent (ft)",
+        "valueFormat": "number",
+        "unit": "ft",
+        "layout": "full",
+        "palette": {"kind": "sequential", "name": "blue"},
+        "referenceLines": [
+          {"axis": "y", "value": 0, "label": "No improvement", "color": "neutral", "lineStyle": "solid"}
+        ],
+        "settings": {"groupMode": "single", "showValues": true, "categoryLabelPolicy": "wrap"},
+        "surface": {"surface": "export", "viewMode": "both", "showControls": false}
+      }
+    ],
+    "tables": [
+      {
+        "id": "constraint-ledger",
+        "title": "Geometric roles and movement budgets",
+        "subtitle": "Each stage has one primary job and a fixed deployment-time limit",
+        "showDescription": true,
+        "dataset": "constraint_ledger",
+        "defaultSort": {"field": "order", "direction": "asc"},
+        "density": "spacious",
+        "sourceId": "constraint-ledger-source",
+        "layout": "full",
+        "columns": [
+          {"field": "stage", "label": "Stage", "type": "text"},
+          {"field": "role", "label": "Primary geometric role", "type": "text"},
+          {"field": "rms_budget", "label": "Well RMS budget", "type": "text"},
+          {"field": "row_cap", "label": "Row cap", "type": "text"},
+          {"field": "failure_mode", "label": "Main failure mode", "type": "text"},
+          {"field": "order", "label": "Order", "type": "number"}
+        ]
+      }
+    ],
+    "sources": [
+      {"id": "headline-summary", "label": "Headline methodology evidence", "path": "evidence/methodology_report_artifact.json", "query": {"engine": "sqlite", "sql": "SELECT positive_folds, total_folds, primary_oof_gain, complement_oof_gain, wells, components, rows FROM headline", "description": "Reads the headline evidence row embedded in the portable report snapshot."}},
+      {"id": "validation-summary", "label": "Curated validation summary", "path": "evidence/methodology_validation_summary.csv", "query": {"engine": "sqlite", "sql": "SELECT contract, panel, split, rows, wells, components, incumbent_rmse, sequential_rmse, gain_ft, macro_component_rmse, harmed_well_rate, worst_10pct_cvar FROM validation_summary ORDER BY rowid", "description": "Reads the four frozen validation contracts in display order."}},
+      {"id": "fold-gains", "label": "Curated outer-fold gains", "path": "evidence/methodology_fold_gains.csv", "query": {"engine": "sqlite", "sql": "SELECT fold_label, panel, outer_fold, rows, wells, components, sequential_rmse, gain_vs_incumbent_ft FROM fold_gains ORDER BY rowid", "description": "Reads all ten component-disjoint outer-fold results in panel and fold order."}},
+      {"id": "constraint-ledger-source", "label": "Methodology movement-budget ledger", "path": "docs/METHODOLOGY_DEEP_DIVE.md", "query": {"engine": "sqlite", "sql": "SELECT stage, role, rms_budget, row_cap, failure_mode, \"order\" FROM constraint_ledger ORDER BY \"order\"", "description": "Reads the stage-role and movement-budget ledger derived from the methodology deep dive."}},
+      {"id": "methodology-document", "label": "Methodology deep dive", "path": "docs/METHODOLOGY_DEEP_DIVE.md"},
+      {"id": "hgrg-code", "label": "HGRG implementation", "path": "src/rogii_portfolio/hgrg.py"},
+      {"id": "robustness-document", "label": "Robustness evaluation", "path": "docs/ROBUSTNESS_EVALUATION.md"}
+    ]
+  },
+  "snapshot": {
+    "version": 1,
+    "generatedAt": "2026-08-07T12:00:00+12:00",
+    "status": "ready",
+    "datasets": {
+      "headline": [
+        {
+          "positive_folds": 10,
+          "total_folds": 10,
+          "primary_oof_gain": 0.655838,
+          "complement_oof_gain": 0.917724,
+          "wells": 320,
+          "components": 243,
+          "rows": 1556878
+        }
+      ],
+      "validation_summary": [
+        {"contract": "Primary OOF", "panel": "Primary160", "split": "Outer OOF", "rows": 610751, "wells": 126, "components": 96, "incumbent_rmse": 15.555088, "sequential_rmse": 14.899251, "gain_ft": 0.655838, "macro_component_rmse": 12.110886, "harmed_well_rate": 0.269841, "worst_10pct_cvar": 31.947929},
+        {"contract": "Primary holdout", "panel": "Primary160", "split": "Run holdout", "rows": 148353, "wells": 34, "components": 23, "incumbent_rmse": 14.543160, "sequential_rmse": 13.950361, "gain_ft": 0.592799, "macro_component_rmse": 11.713799, "harmed_well_rate": 0.264706, "worst_10pct_cvar": 28.194695},
+        {"contract": "Complement OOF", "panel": "Complement160", "split": "Outer OOF", "rows": 636350, "wells": 128, "components": 100, "incumbent_rmse": 13.517732, "sequential_rmse": 12.600008, "gain_ft": 0.917724, "macro_component_rmse": 9.995819, "harmed_well_rate": 0.195312, "worst_10pct_cvar": 27.828963},
+        {"contract": "Complement holdout", "panel": "Complement160", "split": "Run holdout", "rows": 161424, "wells": 32, "components": 24, "incumbent_rmse": 15.476099, "sequential_rmse": 14.817390, "gain_ft": 0.658709, "macro_component_rmse": 12.215284, "harmed_well_rate": 0.281250, "worst_10pct_cvar": 29.503546}
+      ],
+      "fold_gains": [
+        {"fold_label": "Primary F1", "panel": "Primary160", "outer_fold": 1, "rows": 120004, "wells": 26, "components": 19, "sequential_rmse": 10.914221, "gain_vs_incumbent_ft": 0.688849},
+        {"fold_label": "Primary F2", "panel": "Primary160", "outer_fold": 2, "rows": 120583, "wells": 25, "components": 19, "sequential_rmse": 16.208325, "gain_vs_incumbent_ft": 0.789827},
+        {"fold_label": "Primary F3", "panel": "Primary160", "outer_fold": 3, "rows": 122396, "wells": 25, "components": 19, "sequential_rmse": 14.871747, "gain_vs_incumbent_ft": 0.266564},
+        {"fold_label": "Primary F4", "panel": "Primary160", "outer_fold": 4, "rows": 126781, "wells": 25, "components": 20, "sequential_rmse": 16.181046, "gain_vs_incumbent_ft": 0.551734},
+        {"fold_label": "Primary F5", "panel": "Primary160", "outer_fold": 5, "rows": 120987, "wells": 25, "components": 19, "sequential_rmse": 15.572896, "gain_vs_incumbent_ft": 1.000994},
+        {"fold_label": "Complement F1", "panel": "Complement160", "outer_fold": 1, "rows": 123446, "wells": 27, "components": 20, "sequential_rmse": 12.993780, "gain_vs_incumbent_ft": 1.002364},
+        {"fold_label": "Complement F2", "panel": "Complement160", "outer_fold": 2, "rows": 130835, "wells": 24, "components": 20, "sequential_rmse": 12.648860, "gain_vs_incumbent_ft": 1.122064},
+        {"fold_label": "Complement F3", "panel": "Complement160", "outer_fold": 3, "rows": 126450, "wells": 27, "components": 20, "sequential_rmse": 10.426780, "gain_vs_incumbent_ft": 0.853652},
+        {"fold_label": "Complement F4", "panel": "Complement160", "outer_fold": 4, "rows": 129187, "wells": 24, "components": 20, "sequential_rmse": 10.909210, "gain_vs_incumbent_ft": 0.679043},
+        {"fold_label": "Complement F5", "panel": "Complement160", "outer_fold": 5, "rows": 126432, "wells": 26, "components": 20, "sequential_rmse": 15.437252, "gain_vs_incumbent_ft": 0.924685}
+      ],
+      "constraint_ledger": [
+        {"order": 1, "stage": "HGRG", "role": "Physics-directed level and trend", "rms_budget": "2.5 ft", "row_cap": "10 ft", "failure_mode": "All experts can agree on the same wrong alignment"},
+        {"order": 2, "stage": "Meta-State", "role": "Regional long-range structure", "rms_budget": "5 ft", "row_cap": "10 ft", "failure_mode": "Sparse or biased regional anchors can mislead"},
+        {"order": 3, "stage": "Prefix boundary", "role": "Continuity at prediction start", "rms_budget": "2.5 ft", "row_cap": "10 ft", "failure_mode": "A real dip change can invalidate tangent continuation"},
+        {"order": 4, "stage": "Conditional shape", "role": "Centered local variation", "rms_budget": "0.75 ft", "row_cap": "2.5 ft", "failure_mode": "Clipping can alter exact post-projection mean"}
+      ]
+    }
+  },
+  "sources": [
+    {"id": "headline-summary", "label": "Headline methodology evidence", "path": "evidence/methodology_report_artifact.json", "query": {"engine": "sqlite", "sql": "SELECT positive_folds, total_folds, primary_oof_gain, complement_oof_gain, wells, components, rows FROM headline", "description": "Reads the headline evidence row embedded in the portable report snapshot."}},
+    {"id": "validation-summary", "label": "Curated validation summary", "path": "evidence/methodology_validation_summary.csv", "query": {"engine": "sqlite", "sql": "SELECT contract, panel, split, rows, wells, components, incumbent_rmse, sequential_rmse, gain_ft, macro_component_rmse, harmed_well_rate, worst_10pct_cvar FROM validation_summary ORDER BY rowid", "description": "Reads the four frozen validation contracts in display order."}},
+    {"id": "fold-gains", "label": "Curated outer-fold gains", "path": "evidence/methodology_fold_gains.csv", "query": {"engine": "sqlite", "sql": "SELECT fold_label, panel, outer_fold, rows, wells, components, sequential_rmse, gain_vs_incumbent_ft FROM fold_gains ORDER BY rowid", "description": "Reads all ten component-disjoint outer-fold results in panel and fold order."}},
+    {"id": "constraint-ledger-source", "label": "Methodology movement-budget ledger", "path": "docs/METHODOLOGY_DEEP_DIVE.md", "query": {"engine": "sqlite", "sql": "SELECT stage, role, rms_budget, row_cap, failure_mode, \"order\" FROM constraint_ledger ORDER BY \"order\"", "description": "Reads the stage-role and movement-budget ledger derived from the methodology deep dive."}},
+    {"id": "methodology-document", "label": "Methodology deep dive", "path": "docs/METHODOLOGY_DEEP_DIVE.md"},
+    {"id": "hgrg-code", "label": "HGRG implementation", "path": "src/rogii_portfolio/hgrg.py"},
+    {"id": "robustness-document", "label": "Robustness evaluation", "path": "docs/ROBUSTNESS_EVALUATION.md"}
+  ]
+}
